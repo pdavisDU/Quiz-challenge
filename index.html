@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Document</title>
+</head>
+<body>
+    <main class="container">
+        
+        <header id="scores">Highscores</header>
+        <h1 id="h1">Quiz Challenge</h1>
+
+        <h2 id="question">Question</h2>
+    
+    <!-- questions -->
+     <section class="questions-wrapper">
+        <h3 class="questionsHere"></h3>
+
+        <div id="mtplChoice" class="w3-container">
+            <div class="questionArea">
+              <label id="opA"></label>
+            </div><hr>
+  
+            <div class="questionArea">
+              <label id="opB"></label>
+            </div><hr>
+  
+            <div class="questionArea">
+              <label id="opC"></label>
+            </div><hr>
+  
+            <div class="questionArea">
+              <label  id="opD"></label>            
+            </div>
+        </section>
+    
+    
+        <!-- timer -->
+        <section class="timer-wrapper">
+        <h2 class="timer">Time left:</h2>
+        </section>
+    
+    
+        <p id="p">
+        Try to answer the following questions within the time limit. Inccorect
+        answers will penalize you by ten seconds
+        </p>
+    <!-- buttons -->
+        <section class="start-wrapper">
+        <button class="start-btn">Start</button>
+        </section>
+    
+        <div class="divider"></div>
+    <!-- scores -->
+    
+        <section class="scores-wrapper">
+        <ul class="scores-list">Scores!</ul>
+        
+        </section>
+    </main>
+    <div id="questions"></div>
+    
+    <script src="./script.js"></script>
+    <!-- creating a for loop to iterate through the array and target the questions -->
+    <!-- set interval for timer -->
+  </body>
+</html>
