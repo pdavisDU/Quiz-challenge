@@ -1,115 +1,133 @@
 //created variable containing questions options and correct answer
-var questions = [
-  "What is the first letter of the alphabet?",
-  "What NFL team is named after a color?",
-  "What instrument has strings?",
-  "What is the first month of the year?",
+
+const qArray = [
+  {
+    text: "What is the first letter of the alphabet?",
+    choices: ["A", "B", "C", "D"],
+    answer: "A",
+  },
+
+  {
+    text: "What NFL team is named after a color?",
+    choices: ["Chiefs", "Browns", "Cowboys", "Patriots"],
+    answer: "Browns",
+  },
+
+  {
+    text: "What instrument has strings?",
+    choices:
+      ["Horn",
+      "Flute",
+      "Guitar",
+      "Piano"],
+    answer: "Guitar",
+  },
+
+  {
+    text: "What is the first month of the year?",
+    choices: ["February", "April", "June", "January"],
+    answer: "January",
+  },
 ];
-
-var option1 = ["B", "Browns", "Flute", "February"];
-var option2 = ["C", "Chiefs", "Guitar", "April"]
-var option3 = ["A", "Cowboys", "Horn", "June"]
-var option4 = ["D", "Patriots", "Piano", "January"]
-
-var correct = ["A", "Browns", "Guitar", "January"]
 // var timer = 100;
 // var count;
-var question = document.querySelector(".questionHere");
-var startBtn = document.querySelector(".start-btn");
-var timerText = document.querySelector(".timer");
-var scoresUl = document.querySelector(".scores-list");
-var op1 = document.querySelector("#option1");
-var op2 = document.querySelector("#option2");
-var op3 = document.querySelector("#option3");
-var op4 = document.querySelector("#option4");
-var resetBtn = document.querySelector(".reset")
-var h1 = document.querySelector("h1");
-var p = document.querySelector("p");
+var startQuiz = document.getElementById('startBtn');
+var timer = document.querySelector('.countdown');
+var timeCount = 40;
+var qIndex = 0;
+var scoreNow = 0;
+var onLoad = document.getElementById('start-page');
+var qLoad = document.getElementById('quiz');
+var newQuestion = document.getElementById('question');
 
-var timer = 40;
-var score = 0;
+var choice1 = document.getElementById('choice1');
+var choice2 = document.getElementById('choice2');
+var choice3 = document.getElementById('choice3');
+var choice4 = document.getElementById('choice4');
+var choiceBtn = document.getElementById('choiceBtn');
+var showInitials = document.getElementById('score-initials');
+var enter = document.getElementById('enter');
+var scores = document.getElementById('scores');
+var init = document.getElementById('name');
+var scoreBoard = document.getElementById('scoreEnter');
 
-var opButton = document.querySelector(".option")
-var questionIndex = 0;
-var option1Index = 0;
-var option2Index = 0;
-var option3Index = 0;
-var option4Index = 0;
+// var tText = document.getElementById('time');
+// var scoresUl = document.getElementById("score-count");
+// var ques = document.getElementById('q');
+// var choices = document.getElementById('choices');
+// var gameOver = document.getElementById('over');
+// var scoreBoard = document.getElementById('score-board');
+// var op1 = document.querySelector("#option1");
+// var op2 = document.querySelector("#option2");
+// var op3 = document.querySelector("#option3");
+// var op4 = document.querySelector("#option4");
+// var resetBtn = document.querySelector(".reset")
+// var h1 = document.querySelector("h1");
+// var p = document.querySelector("p");
 
-var savedScores = JSON.parse(localStorage.getItem("score")) || [];
-console.log(savedScores);
+qLoad.style.display = 'none';
+showInitials.style.display = 'none';
+startQuiz.addEventListener('click', startNow);
 
-// function displayQ() {
-//   if (q < questions.length) {
-//     question.textContent = questions[q].question;
-//     opA.textContent = questions[q].selection[0];
-//     opB.textContent = questions[q].selection[1];
-//     opC.textContent = questions[q].selection[2];
-//     opD.textContent = questions[q].selection[3];
-//   } else {
-//     gameOver();
-//   }
-// }
-
-// startBtn.addEventListener("click", function (event) {
-//   //timer();
-//   displayQ();
-// });
-
-
-function displayQ() {
-
-  question.textContent = questions[questionIndex];
-  op1.textContent = option1[option1Index];
-  op2.textContent = option2[option2Index];
-  op3.textContent = option3[option3Index];
-  op4.textContent = option4[option4Index];
-
-  for (var i=0; i < opButton.length; i++) {
-    var buttons = opButton[i];
-    buttons.addEventListener("click", next);
-  };
-};
-
-function next(event) {
-
-  questionIndex++;
-  op1++;
-  op2++;
-  op3++;
-  op4++;
-  displayQ();
-
-  if (questionIndex >= questions.length) {
-    endGame();
-  }
+function startNow() {
+  onLoad.style.display = 'none';
+  qLoad.style.display = 'block';
+  startCount();
+  loadQuiz();
 }
-
-startBtn.addEventListener("click", startGame);
-
-function startGame() {
-  startBtn.style.display = "none";
-  h1.style.display = "none";
-  p.style.display = "none";
-  resetBtn.style.display = "none";
-
-  displayQ();
-
-  op1.style.display = "block";
-  op2.style.display = "block";
-  op3.style.display = "block";
-  op4.style.display = "block";
-  question.style.display = "inline";
- 
-
-  var gameTimer = setInterval(() => {
-    timer--;
-    timerText.textContent = "Time left: " + timer;
-
-    if (timer <= 0) {
-      clearInterval(gameTimer);
-      endGame();
+function startCount() {
+  var countdown = setInterval(function (){
+    timeCount--;
+    timer.textContent = timeCount + ' left';
+    if (timeCount === 0 || timeCount < 0){
+      clearInterval(countdown);
+      highScore();
     }
   }, 1000);
-
 }
+function loadQuiz(){
+  newQuestion.textContent = qArray[qIndex].text;
+  choice1.textContent = qArray[qIndex].choices[0];
+  choice2.textContent = qArray[qIndex].choices[1];
+  choice3.textContent = qArray[qIndex].choices[2];
+  choice4.textContent = qArray[qIndex].choices[3];
+}
+qLoad.addEventListener('click', function(event){
+  if(event.target.matches('.choiceBtn')){
+    if(event.target.textContent === qArray[qIndex].answer){
+      scoreNow++;
+      console.log("You got it right");
+    } else {
+      timeCount -=10;
+      console.log('Incorrect, 10 seconds deducted');
+    }
+    qIndex++;
+
+    if(qIndex >= qArray.length){
+      highScore();
+    } else {
+      loadQuiz();
+    }
+  }
+});
+
+function finish(){
+  var startOver = confirm('You got' + scoreNow);
+  if(startOver === true) {
+    window.location.reload();
+  }
+}
+function highScore(){
+  qLoad.style.display = 'none';
+  localStorage.setItem('score', scoreNow);
+  showInitials.style.display = 'block';
+
+  enter.addEventListener('click',function(event){
+    timer.style.display = 'none';
+  })
+}
+
+
+// var savedScores = JSON.parse(localStorage.getItem("score")) || [];
+// console.log(savedScores);
+
